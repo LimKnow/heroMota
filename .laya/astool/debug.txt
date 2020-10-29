@@ -13,7 +13,7 @@ Project configuration:f:\luckly\heroMota/.actionScriptProperties.
 1,0.00,f:/luckly/heroMota/libs/laya/src,0,Collect
 1,2.00,,0,read class message
 1,89.72,,0,Disable Flash3D f:/luckly/heroMota/src/LayaUISample.as
-12,89.72,f:/luckly/heroMota/bin/h5/LayaUISample.max.js,909308,
+12,89.72,f:/luckly/heroMota/bin/h5/LayaUISample.max.js,909284,
 11,89.72,f:/luckly/heroMota/bin/h5/LayaUISample.max.html,895,
 ******************************************************************************
 14,89.72,,0,

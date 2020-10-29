@@ -2,10 +2,8 @@ package com.View
 {
 	import com.View.player.Hero;
 	import com.control.GameDataMgr;
-	import com.control.MapMgr;
 	import com.control.event.EventCent;
 	import com.control.event.GameEvents;
-	import com.data.GameInfo;
 	
 	import laya.display.Sprite;
 	import laya.map.MapLayer;
@@ -37,10 +35,7 @@ package com.View
 			if(!hero){
 				hero = new Hero();
 			}
-			this.addChild(hero);
-//			var info:GameInfo = gmMgr.gmInfo;
-//			mapLayer = MapMgr.ins.getLayer("background");
-//			mapLayer.addChild(hero);
+			Laya.stage.addChild(hero);
 		}
 		
 		public function gc():void{

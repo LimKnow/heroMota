@@ -25256,10 +25256,9 @@ var Game=(function(_super){
 		if(!this.hero){
 			this.hero=new Hero();
 		}
-		this.addChild(this.hero);
+		Laya.stage.addChild(this.hero);
 	}
 
-	// mapLayer.addChild(hero);
 	__proto.gc=function(){
 		if(this.gc){
 			this.hero.removeSelf();
