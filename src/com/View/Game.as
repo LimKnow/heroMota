@@ -2,11 +2,14 @@ package com.View
 {
 	import com.View.player.Hero;
 	import com.control.GameDataMgr;
+	import com.control.MapMgr;
 	import com.control.event.EventCent;
 	import com.control.event.GameEvents;
 	
+	import PathFinding.finders.AStarFinder;
+	
 	import laya.display.Sprite;
-	import laya.map.MapLayer;
+	import laya.maths.Point;
 	
 	/**
 	 * 
@@ -15,13 +18,17 @@ package com.View
 	 */
 	public class Game extends Sprite
 	{
+		public var hero:Hero;
 		private var gmMgr:GameDataMgr;
-		private var hero:Hero;
-		private var mapLayer:MapLayer;
+		private var mapMgr:MapMgr;
+		/**A星寻路*/
+		private var astart:AStarFinder;
+		
 		public function Game()
 		{
 			super();
 			gmMgr = GameDataMgr.ins;
+			mapMgr = MapMgr.ins;
 			addEvent();
 		}
 		
@@ -30,11 +37,12 @@ package com.View
 			EventCent.ins.on(GameEvents.MapLoadCom,this,changeMapCom);
 		}
 		
-		private function changeMapCom(pass:int):void{
+		private function changeMapCom(pass:int,po:Point):void{
 			trace("地图切换完成，当前关卡是" + pass);
 			if(!hero){
 				hero = new Hero();
 			}
+			hero.pos(po.x,po.y);
 			Laya.stage.addChild(hero);
 		}
 		

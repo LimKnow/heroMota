@@ -3,8 +3,12 @@ package com.control
 	import com.control.event.EventCent;
 	import com.control.event.GameEvents;
 	
+	import PathFinding.core.Grid;
+	
+	import laya.map.GridSprite;
 	import laya.map.MapLayer;
 	import laya.map.TiledMap;
+	import laya.maths.Point;
 	import laya.maths.Rectangle;
 	import laya.utils.Browser;
 	import laya.utils.Handler;
@@ -22,9 +26,27 @@ package com.control
 		}
 		
 		private var tmap:TiledMap;
-		private var hallLaya:*
+		/**通行层*/
+		public var hallLayer:MapLayer;
+		/**通行层网格数据*/
+		public var grids:Grid;
+		/**角色层*/
+		public var unitLayer:MapLayer;
+		/**道具层*/
+		public var propLayer:MapLayer;
+		/**瓦片宽*/
+		public var tileWidth:int;
+		/**瓦片高*/
+		public var tileHeight:int;
+		/**瓦宽Num*/
+		public var tileWnum:int;
+		/**瓦高Num*/
+		public var tileHnum:int;
+		/**出生点*/
+		public var bornPo:Point;
 		public function MapMgr()
 		{
+			bornPo = new Point();
 		}
 		
 		public function changeMap(_pass:int):void{
@@ -34,8 +56,25 @@ package com.control
 		}
 		
 		private function loadCom(_pass:int):void{
+			
+			hallLayer = tmap.getLayerByName("hall");
+			unitLayer = tmap.getLayerByName("unit");
+			propLayer = tmap.getLayerByName("prop");
+			
+			grids = new Grid(hallLayer._mapData,64);
+			tileWidth = tmap.tileWidth;
+			tileHeight = tmap.tileHeight;
+			tileWnum = tmap.width;
+			tileHnum = tmap.height;
+			
+			var t:GridSprite = tmap.getLayerObject("unit","born");
+			var a:Array = globalToGrid(t.x - t.pivotX, t.y + t.y);
+			a = gridToGlobal(a[0],a[1]);
+			bornPo.x = a[0];
+			bornPo.y = a[1];
+			
 			GameDataMgr.ins.passNum = _pass;
-			EventCent.ins.event(GameEvents.MapLoadCom,[_pass]);
+			EventCent.ins.event(GameEvents.MapLoadCom,[_pass,bornPo]);
 		}
 		
 		public function getLayer(name:String):MapLayer{
@@ -46,22 +85,27 @@ package com.control
 		/**全局坐标转网格坐标 */
 		public function globalToGrid(x:Number,y:Number):Array
 		{
-			return []
-			/*var gridX:Number =Math.floor(x/widthPerGrid);
-			var gridY:Number =Math.floor(y/heightPerGrid);
-			if(gridX<0)gridX = 0;
-			if(gridX>=numGridW)gridX = numGridW-1;
-			if(gridY<0)gridY = 0;
-			if(gridY>=numGridH)gridY = numGridH-1;
-			return [gridX,gridY];*/
+			var gridX:Number =Math.floor(x/tileWidth);
+			var gridY:Number =Math.floor(y/tileHeight);
+			if(gridX<0){
+				gridX = 0;
+			}
+			else if(gridX >= tileWnum){
+				gridX = tileWnum-1;
+			}
+			if(gridY<0){
+				gridY = 0;
+			}else if(gridY >= tileHnum){
+				gridY = tileHnum-1;
+			}
+			return [gridX,gridY];
 		}
 		/**网格坐标转全局坐标*/
 		public function gridToGlobal(gx:Number,gy:Number):Array
 		{
-			return [];
-			/*var x:Number = Math.round(gx*widthPerGrid)+widthPerGrid*0.5;
-			var y:Number = Math.round(gy*heightPerGrid)+heightPerGrid*0.5;
-			return [x,y];*/
+			var x:Number = Math.round(gx * tileWidth) + tileWidth * 0.5;
+			var y:Number = Math.round(gy * tileHeight) + tileHeight * 0.5;
+			return [x,y];
 		}
 	}
 }
