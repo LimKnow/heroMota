@@ -1,19 +1,19 @@
-1,0.00,,0,Project command:d:\lucky\heroMota/.actionScriptProperties;iflash=false;windowshow=false;chromerun=false;quickcompile=true
-Project configuration:d:\lucky\heroMota/.actionScriptProperties.
-1,0.00,,0,output path:d:/lucky/heroMota/bin/h5/
-1,0.00,,0,Main Class:d:/lucky/heroMota/src/LayaUISample.as
+1,0.00,,0,Project command:f:\luckly\heroMota/.actionScriptProperties;iflash=false;windowshow=false;chromerun=false;quickcompile=true
+Project configuration:f:\luckly\heroMota/.actionScriptProperties.
+1,0.00,,0,output path:f:/luckly/heroMota/bin/h5/
+1,0.00,,0,Main Class:f:/luckly/heroMota/src/LayaUISample.as
 1,0.00,,0,output file:LayaUISample
-1,0.00,,0,compilerSourcePath d:/lucky/heroMota/libs/laya/src/
+1,0.00,,0,compilerSourcePath f:/luckly/heroMota/libs/laya/src/
 
-1,0.00,,0,Compile Path:d:/lucky/heroMota/src/
+1,0.00,,0,Compile Path:f:/luckly/heroMota/src/
 
-1,0.00,,0,Compile Path:d:/lucky/heroMota/libs/laya/src/
+1,0.00,,0,Compile Path:f:/luckly/heroMota/libs/laya/src/
 
-1,0.00,d:/lucky/heroMota/src,0,Collect
-1,0.00,d:/lucky/heroMota/libs/laya/src,0,Collect
+1,0.00,f:/luckly/heroMota/src,0,Collect
+1,0.00,f:/luckly/heroMota/libs/laya/src,0,Collect
 1,2.00,,0,read class message
-1,89.72,,0,Disable Flash3D d:/lucky/heroMota/src/LayaUISample.as
-12,89.72,d:/lucky/heroMota/bin/h5/LayaUISample.max.js,930613,
-11,89.72,d:/lucky/heroMota/bin/h5/LayaUISample.max.html,895,
+1,89.67,,0,Disable Flash3D f:/luckly/heroMota/src/LayaUISample.as
+12,89.67,f:/luckly/heroMota/bin/h5/LayaUISample.max.js,931924,
+11,89.67,f:/luckly/heroMota/bin/h5/LayaUISample.max.html,895,
 ******************************************************************************
-14,89.72,,0,
+14,89.67,,0,

@@ -9,5 +9,7 @@ package com.control.event
 	{
 		/**地图加载完成*/
 		public static const MapLoadCom:String = "MapLoadCom";
+		/**移动结束*/
+		public static const MoveEnd:String = "MoveEnd";
 	}
 }

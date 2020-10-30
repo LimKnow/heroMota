@@ -18,6 +18,7 @@ package com.View
 	 */
 	public class Game extends Sprite
 	{
+		
 		public var hero:Hero;
 		private var gmMgr:GameDataMgr;
 		private var mapMgr:MapMgr;

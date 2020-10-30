@@ -61,11 +61,19 @@ package com.control
 			unitLayer = tmap.getLayerByName("unit");
 			propLayer = tmap.getLayerByName("prop");
 			
-			grids = new Grid(hallLayer._mapData,64);
 			tileWidth = tmap.tileWidth;
 			tileHeight = tmap.tileHeight;
-			tileWnum = tmap.width;
-			tileHnum = tmap.height;
+			tileWnum = tmap.numColumnsTile;
+			tileHnum = tmap.numRowsTile;
+			var ary:Array = hallLayer._mapData;
+			var tary:Array = [];
+			var len:int = ary.length / tileWnum;
+			
+			for (var i:int = 0; i < len; i++) 
+			{
+				tary[i] = ary.slice(i * tileWnum, (i + 1) * tileWnum);
+			}
+			grids = new Grid(tary,64);
 			
 			var t:GridSprite = tmap.getLayerObject("unit","born");
 			var a:Array = globalToGrid(t.x - t.pivotX, t.y + t.y);

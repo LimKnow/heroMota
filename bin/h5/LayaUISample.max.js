@@ -744,6 +744,7 @@ var GameEvents=(function(){
 	function GameEvents(){}
 	__class(GameEvents,'com.control.event.GameEvents');
 	GameEvents.MapLoadCom="MapLoadCom";
+	GameEvents.MoveEnd="MoveEnd";
 	return GameEvents;
 })()
 
@@ -760,10 +761,12 @@ var GameControl=(function(){
 		this.game=null;
 		/**A星寻路*/
 		this.astart=null;
+		/**移动*/
+		this.moveAct=null;
 		this.mapMgr=MapMgr.ins;
 		this.game=new Game();
 		Laya.stage.addChild(this.game);
-		var opt={allowDiagonal:true,diagonalMovement:1,dontCrossCorners:true,heuristic:Heuristic["manhattan"],weight:1};
+		var opt={allowDiagonal:false,diagonalMovement:0,dontCrossCorners:false,heuristic:Heuristic["manhattan"],weight:1};
 		this.astart=new AStarFinder(opt);
 		Laya.stage.on("click",this,this.onClick);
 	}
@@ -777,8 +780,15 @@ var GameControl=(function(){
 		x=this.game.hero.x;
 		y=this.game.hero.y;
 		var b=this.mapMgr.globalToGrid(x,y);
+		this.mapMgr.grids.reset();
 		var pathArr=this.astart.findPath(b[0],b[1],a[0],a[1],this.mapMgr.grids);
-		debugger
+		if(pathArr.length > 0){
+			if(!this.moveAct){
+				this.moveAct=new MoveAction();
+			}
+			pathArr.reverse();
+			this.moveAct.readyMove(pathArr);
+		}
 	}
 
 	__proto.changeScene=function(_pass,isInit){
@@ -871,11 +881,17 @@ var MapMgr=(function(){
 		this.hallLayer=this.tmap.getLayerByName("hall");
 		this.unitLayer=this.tmap.getLayerByName("unit");
 		this.propLayer=this.tmap.getLayerByName("prop");
-		this.grids=new Grid(this.hallLayer._mapData,64);
 		this.tileWidth=this.tmap.tileWidth;
 		this.tileHeight=this.tmap.tileHeight;
-		this.tileWnum=this.tmap.width;
-		this.tileHnum=this.tmap.height;
+		this.tileWnum=this.tmap.numColumnsTile;
+		this.tileHnum=this.tmap.numRowsTile;
+		var ary=this.hallLayer._mapData;
+		var tary=[];
+		var len=ary.length / this.tileWnum;
+		for (var i=0;i < len;i++){
+			tary[i]=ary.slice(i *this.tileWnum,(i+1)*this.tileWnum);
+		}
+		this.grids=new Grid(tary,64);
 		var t=this.tmap.getLayerObject("unit","born");
 		var a=this.globalToGrid(t.x-t.pivotX,t.y+t.y);
 		a=this.gridToGlobal(a[0],a[1]);
@@ -921,6 +937,52 @@ var MapMgr=(function(){
 
 	MapMgr._ins=null;
 	return MapMgr;
+})()
+
+
+/**
+*@autor 张利民
+*2020-10-30
+*/
+//class com.control.MoveAction
+var MoveAction=(function(){
+	function MoveAction(){
+		this.hero=null;
+		this.path=null;
+		this.speed=500;
+		this.mapMgr=null;
+		this.mapMgr=MapMgr.ins
+		this.hero=GameControl.ins.game.hero;
+	}
+
+	__class(MoveAction,'com.control.MoveAction');
+	var __proto=MoveAction.prototype;
+	/**
+	*准备移动
+	*/
+	__proto.readyMove=function(_path){
+		this.path=_path;
+		this.move();
+	}
+
+	/**移动*/
+	__proto.move=function(){
+		var node=this.path.pop();
+		node=this.mapMgr.gridToGlobal(node[0],node[1]);
+		Tween.to(this.hero,{x:node[0],y:node[1]},this.speed,null,Handler.create(this,this.end));
+	}
+
+	__proto.end=function(){
+		if(this.path.length > 0){
+			this.move();
+		}
+		else{
+			EventCent.ins.event("MoveEnd");
+			console.log("移动结束");
+		}
+	}
+
+	return MoveAction;
 })()
 
 
