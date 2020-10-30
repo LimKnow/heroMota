@@ -822,6 +822,7 @@ var GameDataMgr=(function(){
 var MapMgr=(function(){
 	function MapMgr(){
 		this.tmap=null;
+		this.hallLaya
 	}
 
 	__class(MapMgr,'com.control.MapMgr');

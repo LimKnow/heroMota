@@ -22,6 +22,7 @@ package com.control
 		}
 		
 		private var tmap:TiledMap;
+		private var hallLaya:*
 		public function MapMgr()
 		{
 		}
