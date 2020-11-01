@@ -108,6 +108,7 @@ package com.control
 			}
 			return [gridX,gridY];
 		}
+		
 		/**网格坐标转全局坐标*/
 		public function gridToGlobal(gx:Number,gy:Number):Array
 		{

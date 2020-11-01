@@ -1,6 +1,6 @@
 package com.View.player
 {
-	import com.enum.ActionType;
+	import com.enum.GameEnum;
 	
 	import laya.display.Sprite;
 	
@@ -25,7 +25,7 @@ package com.View.player
 		public function changeAction(actType:int):void{
 			switch(actType)
 			{
-				case ActionType.Run: //跑
+				case GameEnum.Run: //跑
 					break;
 				default: //站立
 					break;

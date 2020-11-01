@@ -949,10 +949,12 @@ var MoveAction=(function(){
 	function MoveAction(){
 		this.hero=null;
 		this.path=null;
-		this.speed=500;
+		this.speed=300;
 		this.mapMgr=null;
-		this.mapMgr=MapMgr.ins
-		this.hero=GameControl.ins.game.hero;
+		this.gm=null;
+		this.gm=GameControl.ins
+		this.mapMgr=MapMgr.ins;
+		this.hero=this.gm.game.hero;
 	}
 
 	__class(MoveAction,'com.control.MoveAction');
@@ -961,25 +963,50 @@ var MoveAction=(function(){
 	*准备移动
 	*/
 	__proto.readyMove=function(_path){
+		Tween.clearAll(this.hero);
 		this.path=_path;
 		this.move();
 	}
 
 	/**移动*/
 	__proto.move=function(){
-		var node=this.path.pop();
-		node=this.mapMgr.gridToGlobal(node[0],node[1]);
-		Tween.to(this.hero,{x:node[0],y:node[1]},this.speed,null,Handler.create(this,this.end));
+		var grid=this.path.pop();
+		var node=this.mapMgr.gridToGlobal(grid[0],grid[1]);
+		Tween.to(this.hero,{x:node[0],y:node[1]},this.speed,null,Handler.create(this,this.end,grid));
 	}
 
-	__proto.end=function(){
-		if(this.path.length > 0){
-			this.move();
+	__proto.end=function(gx,gy){
+		if(this.chekProp(gx,gy)){
+			if(this.path.length > 0){
+				this.move();
+			}
+			else{
+				EventCent.ins.event("MoveEnd");
+				console.log("移动结束");
+			}
 		}
-		else{
-			EventCent.ins.event("MoveEnd");
-			console.log("移动结束");
-		}
+	}
+
+	/**
+	*道具检查，是否可以移动
+	*/
+	__proto.chekProp=function(gx,gy){
+		var mark=this.mapMgr.propLayer.getTileData(gx,gy);
+		switch(mark){
+			case 29:
+			case 43:
+			case 37:
+			case 27:
+			case 21:
+			case 26:{
+					debugger
+					break ;
+				}
+			default :{
+					break ;
+				}
+			}
+		return true;
 	}
 
 	return MoveAction;
@@ -1025,13 +1052,34 @@ var GameInfo=(function(){
 })()
 
 
-//class com.enum.ActionType
-var ActionType=(function(){
-	function ActionType(){}
-	__class(ActionType,'com.enum.ActionType');
-	ActionType.Stand=1;
-	ActionType.Run=2;
-	return ActionType;
+/**
+*枚举类
+*@author Lm
+*
+*/
+//class com.enum.GameEnum
+var GameEnum=(function(){
+	function GameEnum(){}
+	__class(GameEnum,'com.enum.GameEnum');
+	GameEnum.Stand=1;
+	GameEnum.Run=2;
+	GameEnum.RedDoorUp=21;
+	GameEnum.RedDoorLeft=26;
+	GameEnum.YellowDoorUp=29;
+	GameEnum.YellowDoorLeft=43;
+	GameEnum.BlueDoorUp=37;
+	GameEnum.BlueDoorLeft=27;
+	GameEnum.BlueGem=4;
+	GameEnum.RedGem=5;
+	GameEnum.SmallBlood=11;
+	GameEnum.MiddleBlood=12;
+	GameEnum.BigBlood=13;
+	GameEnum.YellowKey=19;
+	GameEnum.RedKey=20;
+	GameEnum.BlueKey=21;
+	GameEnum.ElevatorDown=18;
+	GameEnum.ElevatorUp=24;
+	return GameEnum;
 })()
 
 
